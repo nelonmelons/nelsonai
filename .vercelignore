@@ -1,6 +1,7 @@
 node_modules
-.env
 *.log
 .vscode
 __pycache__
 .git
+server/src
+server/.env

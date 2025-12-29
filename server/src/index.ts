@@ -18,21 +18,35 @@ app.use(express.json());
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
 
-if (!GEMINI_API_KEY) {
-  console.error("❌ GEMINI_API_KEY not found in environment variables");
-  process.exit(1);
-}
+let agent: HospitalityAgent | null = null;
 
-const agent = new HospitalityAgent(GEMINI_API_KEY, GEMINI_MODEL);
+if (GEMINI_API_KEY) {
+  agent = new HospitalityAgent(GEMINI_API_KEY, GEMINI_MODEL);
+} else {
+  console.error("❌ GEMINI_API_KEY not found in environment variables");
+}
 
 // Health check
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", model: GEMINI_MODEL });
+  res.json({
+    status: agent ? "ok" : "error",
+    model: GEMINI_MODEL,
+    configured: !!GEMINI_API_KEY,
+  });
 });
 
 // Chat endpoint
 app.post("/api/chat", async (req, res) => {
   try {
+    // Check if agent is initialized
+    if (!agent) {
+      return res.status(503).json({
+        error: "Service unavailable",
+        details:
+          "AI agent not configured. Please check GEMINI_API_KEY environment variable.",
+      });
+    }
+
     // Validate request
     const request = ChatRequestSchema.parse(req.body);
 
