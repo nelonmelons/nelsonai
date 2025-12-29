@@ -104,9 +104,14 @@ app.post("/api/reset", (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Besty AI Server running on http://localhost:${PORT}`);
-  console.log(`📡 API endpoint: http://localhost:${PORT}/api/chat`);
-  console.log(`🤖 Using model: ${GEMINI_MODEL}`);
-});
+// Start server (for local development only)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Besty AI Server running on http://localhost:${PORT}`);
+    console.log(`📡 API endpoint: http://localhost:${PORT}/api/chat`);
+    console.log(`🤖 Using model: ${GEMINI_MODEL}`);
+  });
+}
+
+// Export for Vercel serverless
+export default app;
