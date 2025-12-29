@@ -1,0 +1,24 @@
+{
+  "name": "nelson-ai-hospitality",
+  "version": "1.0.0",
+  "description": "Nelson AI - Hospitality Upselling Messaging Agent",
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "server:dev": "cd server && npm run dev",
+    "client:dev": "cd client && npm run dev",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "vercel-build": "cd client && npm install && npm run build"
+  },
+  "keywords": [
+    "hospitality",
+    "ai",
+    "gemini",
+    "upselling"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
