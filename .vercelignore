@@ -1,7 +1,3 @@
-node_modules
 *.log
 .vscode
 __pycache__
-.git
-server/src
-server/.env
