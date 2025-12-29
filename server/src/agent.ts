@@ -36,7 +36,10 @@ export class HospitalityAgent {
     // Safety check first
     const safetyCheck = this.checkSafety(request.message);
     if (safetyCheck.shouldEscalate) {
-      return this.createEscalationResponse(request, safetyCheck.reason);
+      return this.createEscalationResponse(
+        request,
+        safetyCheck.reason || "Safety concern"
+      );
     }
 
     // Build system prompt
