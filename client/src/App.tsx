@@ -25,7 +25,7 @@ function App() {
   const [guest, setGuest] = useState<Guest>(defaultGuest);
   const [stay, setStay] = useState<Stay>(defaultStay);
   const [property, setProperty] = useState<Property>(defaultProperty);
-  const [business, setBusiness] = useState<Business>(defaultBusiness);
+  const [business] = useState<Business>(defaultBusiness);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 

@@ -1,4 +1,4 @@
-import type { ChatRequest, Property, Business, Guest, Stay } from "./types";
+import type { Property, Business, Guest, Stay } from "./types";
 
 export const defaultProperty: Property = {
   name: "Sunset Beach Villa",
