@@ -1,4 +1,4 @@
-# Besty AI - Hospitality Messaging & Upsell Agent
+# Nelson AI - Hospitality Messaging & Upsell Agent
 
 An AI-powered guest communication automation system for hospitality businesses, powered by Google Gemini AI, designed to maximize revenue through intelligent upselling while providing exceptional guest experiences.
 
