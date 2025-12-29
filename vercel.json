@@ -27,7 +27,7 @@
     }
   ],
   "env": {
-    "GEMINI_API_KEY": "@gemini_key",
+    "GEMINI_API_KEY": "@GEMINI_KEY",
     "GEMINI_MODEL": "gemini-2.5-flash-lite",
     "PORT": "3001"
   }
