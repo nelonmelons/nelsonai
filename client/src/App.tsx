@@ -56,8 +56,27 @@ function App() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.details || "Failed to send message");
+        // Try to parse as JSON first, fall back to text
+        const contentType = response.headers.get("content-type");
+        let errorMessage = `Request failed with status ${response.status}`;
+
+        if (contentType?.includes("application/json")) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.details || errorData.error || errorMessage;
+          } catch {
+            errorMessage = await response.text();
+          }
+        } else {
+          const textError = await response.text();
+          if (textError.includes("NOT_FOUND") || textError.includes("404")) {
+            errorMessage =
+              "API endpoint not found. Please check your deployment configuration.";
+          } else {
+            errorMessage = textError.substring(0, 200);
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const data: ChatResponse = await response.json();
@@ -92,16 +111,35 @@ function App() {
 
   const handleReset = async () => {
     try {
-      await fetch("/api/reset", {
+      const response = await fetch("/api/reset", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId }),
       });
+
+      if (!response.ok) {
+        const contentType = response.headers.get("content-type");
+        let errorMessage = `Reset failed with status ${response.status}`;
+
+        if (contentType?.includes("application/json")) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.details || errorData.error || errorMessage;
+          } catch {
+            errorMessage = await response.text();
+          }
+        }
+        console.error("Reset error:", errorMessage);
+        setError(errorMessage);
+        return;
+      }
+
       setMessages([]);
       setLastAgentResponse(null);
       setError(null);
     } catch (err) {
       console.error("Reset error:", err);
+      setError(err instanceof Error ? err.message : "Reset failed");
     }
   };
 
